@@ -7,6 +7,8 @@ body, html {
   padding: 0;
   margin: 0;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+  background-image: url("/img/17973908.jpg");
   /* color: rgb(112, 62, 62); */
 }
 
@@ -90,6 +92,7 @@ header h1 {
 main {
   flex: 1;
   padding: 2% 4%;
+  
 }
 
 .btn-no-style {
@@ -171,7 +174,7 @@ main {
 }
 
 footer {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid rgb(204, 121, 210);
   display: flex;
   justify-content: center;
   padding: 1%;
