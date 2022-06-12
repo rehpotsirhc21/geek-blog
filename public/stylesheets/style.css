@@ -24,10 +24,11 @@ a:hover {
 } */
 
 button {
-  background-color: #852085;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(30,201,201,0.8267682072829132) 0%, rgba(181,180,178,1) 46%, rgba(0,212,255,1) 100%);
+  
   border: 0;
   padding: 1%;
-  color: white;
+ 
   font-weight: bold;
   transition: background-color .1s;
   cursor: pointer;
