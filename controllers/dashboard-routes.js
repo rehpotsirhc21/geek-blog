@@ -6,15 +6,16 @@ const withAuth = require('../utils/auth');
 router.get('/', withAuth, (req, res) => {
     Post.findAll({
       where: {
-        
+        // use the ID from the session
         user_id: req.session.user_id
       },
       attributes: [
         'id',
-        'post_url',
+        'content',
         'title',
+        
         'created_at',
-        [sequelize.literal('(SELECT COUNT(*) FROM like WHERE post.id = like.post_id)'), 'like_count']
+        [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
       ],
       include: [
         {
@@ -32,7 +33,7 @@ router.get('/', withAuth, (req, res) => {
       ]
     })
       .then(dbPostData => {
-       
+        // serialize data before passing to template
         const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('dashboard', { posts, loggedIn: true });
       })
@@ -46,10 +47,10 @@ router.get('/', withAuth, (req, res) => {
     Post.findByPk(req.params.id, {
       attributes: [
         'id',
-        'post_url',
+        'content',
         'title',
         'created_at',
-        [sequelize.literal('(SELECT COUNT(*) FROM like WHERE post.id = like.post_id)'), 'like_count']
+        [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
       ],
       include: [
         {

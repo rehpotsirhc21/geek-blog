@@ -2,10 +2,11 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 // create our Post model
 class Post extends Model {
-  static like(body, models) {
-    return models.Like.create({
+  static upvote(body, models) {
+    return models.Vote.create({
       user_id: body.user_id,
-      post_id: body.post_id
+      post_id: body.post_id,
+      content: body.content
     }).then(() => {
       return Post.findOne({
         where: {
@@ -13,11 +14,11 @@ class Post extends Model {
         },
         attributes: [
           'id',
-          'post_url',
+          'content',
           'title',
-          'post_body',
+          
           'created_at',
-          [sequelize.literal('(SELECT COUNT(*) FROM  WHERE post.id = like.post_id)'), 'like_count']
+          [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
         ],
         include: [
           {
@@ -34,7 +35,7 @@ class Post extends Model {
   }
 }
 
-
+// create fields/columns for Post model
 Post.init(
   {
     id: {
@@ -47,18 +48,12 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    post_url: {
-      type: DataTypes.STRING,
+    content: {
+      type: DataTypes.TEXT('long'),
       allowNull: false,
-      validate: {
-        isURL: true
-      }
+    
     },
-    post_body: {
-        type: DataTypes.STRING, 
-        allowNullL: false
-
-    },
+  
     user_id: {
       type: DataTypes.INTEGER,
       references: {
